@@ -7,31 +7,31 @@ extern unowned void *dlsym(void *handle, string symbol);
 
 const int RTLD_LAZY = 0x00001; /* Lazy function call binding. */
 
-delegate unowned uchar*Chksum();
-Chksum md5sum = null;
+delegate unowned uchar*EchoTest();
+EchoTest echoTest = null;
 
 int main(string[] args) {
 
 	// dynamic load from shared library
 	
     // begin load and link
-    string md5sum_lib_path = "./md5sum.so";
+    string plugin_path = "./plugin.so";
 
-    stdout.printf("Load %s\n", md5sum_lib_path);
+    stdout.printf("Load %s\n", plugin_path);
  
-    var module = dlopen(md5sum_lib_path, RTLD_LAZY);
+    var module = dlopen(plugin_path, RTLD_LAZY);
     if (module == null) {
         stdout.printf("error: %s\n", dlerror());
         return 1;
     }
  
-    md5sum = (Chksum) dlsym(module, "md5sum");
-    if (md5sum == null) {
+    echoTest = (EchoTest) dlsym(module, "echoTest");
+    if (echoTest == null) {
         stdout.printf("error: %s\n", dlerror());
         return 1;
     }
     // end load and link
   
-    stdout.printf("1[%s]\n", (string) md5sum() );
+    echoTest();
     return 0;
 }

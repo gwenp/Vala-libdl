@@ -2,7 +2,7 @@
 
 extern "C"
 {
-    void* md5sum()
+    void* echoTest()
     {
   		std::cout << "plop from plugin" << std::endl;
     }
